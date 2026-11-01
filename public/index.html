@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Guardian 53 Admin</title><link rel="stylesheet" href="/assets/admin.css"></head>
+<body>
+  <main class="shell">
+    <header><div class="mark">G53</div><div><h1>Guardian 53</h1><p>Dynamic Robotics · Product administration</p></div><span class="tag">PRIVATE CONSOLE</span></header>
+    <section class="panel warning"><strong>Product-owner console</strong><p>This console creates and revokes license codes. Keep the administrator API key private. It is held only in this browser tab's session storage and is never embedded in the extension ZIP.</p></section>
+    <section id="login" class="panel">
+      <h2>Administrator authentication</h2><label for="admin-key">Admin API key</label><input id="admin-key" type="password" autocomplete="off" placeholder="Paste the key configured in Cloudflare Workers"><button id="connect">Connect securely</button><p id="login-message" role="status"></p>
+    </section>
+    <section id="console" hidden>
+      <div class="metrics"><article class="panel"><span>Available</span><strong id="available-count">0</strong></article><article class="panel"><span>Activated</span><strong id="active-count">0</strong></article><article class="panel"><span>Suspended / revoked</span><strong id="disabled-count">0</strong></article></div>
+      <section class="panel"><h2>Issue license codes</h2><div class="form-grid"><div><label for="count">Number of codes</label><input id="count" type="number" min="1" max="100" value="1"></div><div><label for="max-devices">Maximum child devices</label><input id="max-devices" type="number" min="1" max="100" value="5"></div><div><label for="expiry">Expires in days (blank = no expiry)</label><input id="expiry" type="number" min="1" max="3650" placeholder="365"></div><div><label for="label">Internal label</label><input id="label" maxlength="120" placeholder="Retail batch / customer"></div></div><button id="issue">Generate licenses</button><div id="issued" class="issued" hidden></div><p id="issue-message" role="status"></p></section>
+      <section class="panel"><div class="row"><h2>License inventory</h2><button id="refresh" class="secondary">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Label</th><th>Status</th><th>Device limit</th><th>Expiry</th><th>Family</th><th>Action</th></tr></thead><tbody id="license-rows"></tbody></table></div></section>
+      <footer><span>Admin key stays in this tab only.</span><button id="disconnect" class="text-button">Disconnect</button></footer>
+    </section>
+  </main>
+  <script src="/assets/admin.js"></script>
+</body></html>

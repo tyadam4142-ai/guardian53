@@ -1,0 +1,34 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "guardian53-relay",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-31",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": "../public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "guardian53-prod",
+      "database_id": "db58625f-b049-472d-87d0-62bcbb533fda",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "APP_ORIGIN": "https://guardian53.dynamicrobotics53.com",
+    "SESSION_DAYS": "30"
+  },
+  "routes": [
+    {
+      "pattern": "guardian53.dynamicrobotics53.com",
+      "custom_domain": true
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guardian 53 — Parent Control</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="topbar">
+      <div class="brand"><div class="logo">G53</div><div><h1>Guardian 53</h1><p>Parent Control</p></div></div>
+      <span id="connection-status" class="pill muted">Not connected</span>
+    </header>
+
+    <section id="auth-panel" class="panel narrow">
+      <h2>Parent account</h2>
+      <p class="muted">Sign in, or create a family account using a license code issued by Dynamic Robotics.</p><p class="small"><a href="../child/setup.html">Set up this browser as a child device</a></p>
+      <div class="tabs"><button type="button" class="tab active" data-mode="login">Sign in</button><button type="button" class="tab" data-mode="register">Create account</button></div>
+      <form id="auth-form">
+        <label for="email">Parent email</label><input id="email" type="email" autocomplete="username" required maxlength="254">
+        <label for="password">Account password</label><input id="password" type="password" autocomplete="current-password" required minlength="12" maxlength="128">
+        <div id="license-wrap" hidden><label for="license">License code</label><input id="license" autocomplete="off" placeholder="G53-XXXX-XXXX-XXXX"></div>
+        <button id="auth-submit" type="submit">Sign in</button>
+      </form>
+      <p id="auth-message" class="message" role="status"></p>
+    </section>
+
+    <section id="unlock-panel" class="panel narrow" hidden>
+      <h2>Unlock parent controls</h2>
+      <p class="muted">Your master password encrypts the family policy key on this device. It is not sent to the server.</p>
+      <form id="unlock-form"><label for="master-password">Master password</label><input id="master-password" type="password" autocomplete="current-password" minlength="12" required><button type="submit">Unlock</button></form>
+      <p id="unlock-message" class="message" role="status"></p>
+      <button id="back-to-login" class="secondary" type="button">Use another parent account</button>
+    </section>
+
+    <section id="child-panel" class="panel narrow" hidden>
+      <div class="brand"><div class="logo">G53</div><div><h1>Guardian 53</h1><p>Child device</p></div></div>
+      <h2>This browser is paired</h2>
+      <p id="child-status" class="muted">Checking protection status…</p>
+      <button id="refresh-child" type="button">Refresh protection</button>
+      <form id="child-request-form"><label for="child-request-domain">Request a website</label><input id="child-request-domain" placeholder="example.com" maxlength="253" required><button type="submit">Ask parent for access</button></form>
+      <p id="child-message" class="message" role="status"></p>
+      <p id="child-repair" hidden><a href="../child/setup.html">Connect again with a new parent pairing code</a></p>
+      <p class="muted small">Your parent or guardian manages this browser's filtering rules and device access.</p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <nav class="nav"><button class="navbtn active" data-tab="overview">Overview</button><button class="navbtn" data-tab="rules">Website rules</button><button class="navbtn" data-tab="devices">Devices & pairing</button><button class="navbtn" data-tab="requests">Approvals</button></nav>
+
+      <section class="tabpage" id="page-overview">
+        <div class="grid two">
+          <article class="panel stat"><span class="muted">Registered devices</span><strong id="device-count">0</strong></article>
+          <article class="panel stat"><span class="muted">Pending approvals</span><strong id="request-count">0</strong></article>
+        </div>
+        <article class="panel"><h2>Protection status</h2><p id="protection-state" class="muted">Waiting for policy sync.</p><p class="muted small">Filtering is enforced by browser-managed DNR rules on supported browsers. An administrator-managed browser policy can add uninstall protection on compatible desktop installations.</p></article>
+        <article class="panel"><h2>Parent notifications</h2><p class="muted small">Enable browser notifications for access requests. The background extension also checks requests periodically while the browser is running.</p><button id="enable-notifications" class="secondary" type="button">Enable desktop notifications</button><p id="notification-message" class="message" role="status"></p></article>
+        <article class="panel"><h2>Recent activity</h2><div id="activity-list" class="items empty">No recorded activity yet.</div></article>
+      </section>
+
+      <section class="tabpage" id="page-rules" hidden>
+        <article class="panel"><h2>Category filtering</h2><p class="muted small">Starter category lists are illustrative and intentionally limited. Use a reviewed category feed before commercial release.</p><div id="categories" class="checklist"></div></article>
+        <article class="panel"><h2>Manual blocklist</h2><p class="muted small">Enter a domain or website URL. Parent rules are synchronized as encrypted policy data.</p><form id="block-form" class="inline-form"><input id="block-domain" placeholder="example.com" required><button type="submit">Add blocked site</button></form><ul id="block-list" class="items"></ul></article>
+        <article class="panel"><h2>Always allowed</h2><form id="allow-form" class="inline-form"><input id="allow-domain" placeholder="school.example" required><button type="submit">Add allowed site</button></form><ul id="allow-list" class="items"></ul><p class="muted small">Temporary approvals appear here with an expiry time.</p></article>
+        <button id="save-policy">Save and sync policy</button><p id="policy-message" class="message" role="status"></p>
+      </section>
+
+      <section class="tabpage" id="page-devices" hidden>
+        <article class="panel"><h2>Pair a child device</h2><p class="muted">Create a single-use code. It expires after five minutes and pairing still requires your approval.</p><button id="create-code">Generate connection code</button><div id="pair-code" class="pair-code" hidden></div><p id="pair-message" class="message" role="status"></p></article>
+        <article class="panel"><h2>Pending devices</h2><div id="pending-devices" class="items empty">No pending devices.</div></article>
+        <article class="panel"><h2>Paired devices</h2><div id="paired-devices" class="items empty">No paired devices.</div></article>
+      </section>
+
+      <section class="tabpage" id="page-requests" hidden>
+        <article class="panel"><h2>Website access requests</h2><div id="approval-list" class="items empty">No pending requests.</div></article>
+      </section>
+      <footer class="footer"><span>Guardian 53 · Dynamic Robotics</span><button id="sign-out" class="link-button">Sign out</button></footer>
+    </section>
+  </main>
+  <script src="../config.js"></script>
+  <script src="../lib/idb.js"></script>
+  <script src="../lib/secure-storage.js"></script>
+  <script src="../lib/domain.js"></script>
+  <script src="../lib/categories.js"></script>
+  <script src="../lib/rules-core.js"></script>
+  <script src="../lib/crypto.js"></script>
+  <script src="../lib/api.js"></script>
+  <script src="parent_dashboard.js"></script>
+</body>
+</html>
